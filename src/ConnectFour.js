@@ -4,18 +4,11 @@ import Column from './components/Column/Column';
 import Row from './components/Row/Row';
 import './ConnectFour.css';
 
-const PLAYER_ONE = {
-    color: 'red'
-};
 
-const PLAYER_TWO = {
-    color: 'yellow'
-};
 
 class ConnectFour extends Component {
     state = {
         color: 'white',
-        player: PLAYER_ONE
     };
 
     makeLayout = (grid, num, coordinate = 0) => {
