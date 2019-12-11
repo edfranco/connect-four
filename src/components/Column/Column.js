@@ -1,42 +1,33 @@
 import React, { Component } from 'react';
 
-const PLAYER_ONE = {
-    name: 'player1',
-    color: 'red',
-    array: []
-};
-
-const PLAYER_TWO = {
-    name: 'player2',
-    color: 'yellow',
-    array: []
-};
-
 
 class Column extends Component {
     state = {
         backgroundColor: '',
-        player: this.props.player,
-        player: PLAYER_ONE
+        player: this.props.player
     };
 
-    players = [PLAYER_ONE, PLAYER_TWO]
+    componentDidMount() {
+        this.setState({ player: this.props.player })
+    };
 
-    handleClick = (name, coordinates) => {
-        this.players.forEach(player => {
-            if (player.name === name) {
-                player.array.push(coordinates)
-            }
-        })
-        this.setState({ backgroundColor: this.state.backgroundColor === 'red' ? 'white' : this.state.player.color });
-        console.log(this.state.player.array)
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.player !== this.state.player) {
+            this.setState({ startTime: nextProps.player });
+        }
     }
 
     render() {
         return (
-            <div onClick={() => this.handleClick(this.state.player.name, { x: this.props.coordinates.column, y: this.props.coordinates.row })} style={{ cursor: 'pointer', backgroundColor: this.state.backgroundColor }} className="column">
+            <div onClick={() => {
+                this.setState({ backgroundColor: this.state.player.color, });
+                this.props.handleClick(this.state.player.name, { x: this.props.coordinates.column, y: this.props.coordinates.row });
+            }} style={{ cursor: 'pointer' }} className="column">
                 {this.props.coordinates.row === 0 && this.props.coordinates.column}
                 {this.props.coordinates.column !== this.props.coordinates.row && this.props.coordinates.column === 0 && this.props.coordinates.row}
+                <div className="circle" style={{ backgroundColor: this.state.backgroundColor }}>
+
+                </div>
             </div>
         );
     };
